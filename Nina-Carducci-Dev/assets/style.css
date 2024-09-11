@@ -134,7 +134,12 @@ img {
 	height: 100%;
 	object-fit: cover;
 	padding: .5em;
+	
 }
+img.gallery-item.img-fluid {
+    cursor: pointer;
+}
+
 .mg-prev, .mg-next {
 	width: 30px;
 	height: 30px;

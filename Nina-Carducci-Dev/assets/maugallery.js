@@ -57,7 +57,9 @@
       }
     });
 
-    $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
+    $(".gallery").on("click", ".nav-link", function() {
+      $.fn.mauGallery.methods.filterByTag.call(this);
+    });
     $(".gallery").on("click", ".mg-prev", () =>
       $.fn.mauGallery.methods.prevImage(options.lightboxId)
     );
@@ -126,8 +128,11 @@
           activeImage = $(this);
         }
       });
+      
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
+
       let imagesCollection = [];
+
       if (activeTag === "all") {
         $(".item-column").each(function() {
           if ($(this).children("img").length) {
@@ -135,16 +140,13 @@
           }
         });
       } else {
-        $(".item-column").each(function() {
-          if (
-            $(this)
-              .children("img")
-              .data("gallery-tag") === activeTag
-          ) {
+        $(".item-column").each(function () {
+          if ($(this).children("img").data("gallery-tag") === activeTag) {
             imagesCollection.push($(this).children("img"));
           }
         });
       }
+     
       let index = 0,
         next = null;
 
@@ -153,10 +155,10 @@
           index = i ;
         }
       });
-      next =
-        imagesCollection[index] ||
+      preview =
+        imagesCollection[index - 1] ||
         imagesCollection[imagesCollection.length - 1];
-      $(".lightboxImage").attr("src", $(next).attr("src"));
+      $(".lightboxImage").attr("src", $(preview).attr("src"));
     },
     nextImage() {
       let activeImage = null;
@@ -192,7 +194,7 @@
           index = i;
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
+      next = imagesCollection[index + 1] || imagesCollection[0];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     createLightBox(gallery, lightboxId, navigation) {
@@ -222,7 +224,7 @@
       var tagItems =
         '<li class="nav-item"><span class="nav-link active active-tag"  data-images-toggle="all">Tous</span></li>';
       $.each(tags, function(index, value) {
-        tagItems += `<li class="nav-item active">
+        tagItems += `<li class="nav-item">
                 <span class="nav-link"  data-images-toggle="${value}">${value}</span></li>`;
       });
       var tagsRow = `<ul class="my-4 tags-bar nav nav-pills">${tagItems}</ul>`;
@@ -240,7 +242,7 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      $(this).addClass("active active-tag");
 
       var tag = $(this).data("images-toggle");
 

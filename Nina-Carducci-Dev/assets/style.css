@@ -85,11 +85,13 @@ img {
 	margin-bottom: 60px;
 	font-size: 30px;
 }
+
 .about-me__introduction {
 	font-family: 'Spectral';
 	font-weight: 800;
 	font-style: italic;
 	width: 60%;
+	font-size: 1rem !important;
 }
 #about-me p {
 	width: 80%;
